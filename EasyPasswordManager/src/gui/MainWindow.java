@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
@@ -132,10 +134,30 @@ public class MainWindow extends JFrame {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//Create a new credentials object from the text fields
-				Credentials newCredentials = new Credentials(websiteTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
+				//If all the text fields are compiled
+				if(!websiteTextField.getText().isBlank() && !emailTextField.getText().isBlank() && !usernameTextField.getText().isBlank() && !passwordTextField.getText().isBlank())
+				{
+					//Create a new credentials object from the text fields
+					Credentials newCredentials = new Credentials(websiteTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
+					
+					//insert the credentials in the database
+					boolean result = softwareController.insertNewCredentials(newCredentials);
+					
+					if(result) 
+					{
+						JOptionPane.showMessageDialog(null, "New credentials added");
+					}
+					else 
+						JOptionPane.showMessageDialog(null,"Error adding these new credentials!\nCheck if you already have saved them","Error", JOptionPane.ERROR_MESSAGE);
 				
-				softwareController.insertNewCredentials(newCredentials);
+					clearCredentialsFields();
+				}
+				
+				//If at least one text field is blank then display en error
+				else if(websiteTextField.getText().isBlank() || emailTextField.getText().isBlank() || usernameTextField.getText().isBlank() || passwordTextField.getText().isBlank())
+					JOptionPane.showMessageDialog(null, "All the fields must be compiled", "Error", JOptionPane.ERROR_MESSAGE);
+
+				
 			}
 		});
 		addButton.setBackground(Color.WHITE);
@@ -205,5 +227,14 @@ public class MainWindow extends JFrame {
 		passwordFakeLabel.setBorder(null);
 		passwordFakeLabel.setBounds(873, 473, 181, 29);
 		contentPane.add(passwordFakeLabel);
+	}
+	
+	//OTHER METHODS
+	private void clearCredentialsFields() 
+	{
+		websiteTextField.setText("");
+		emailTextField.setText("");
+		usernameTextField.setText("");
+		passwordTextField.setText("");
 	}
 }
