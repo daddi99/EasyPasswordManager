@@ -1,6 +1,7 @@
 package controller;
 
 import dao.*;
+import entities.Credentials;
 import entities.User;
 import gui.*;
 
@@ -8,14 +9,17 @@ public class Controller {
 	
 	//ATTRIBUTES
 	UserDAO userDAO;
+	CredentialsDAO credentialsDAO;
+	
 	LoginWindow loginWindow;
 	RegisterWindow registerWindow;
 	MainWindow mainWindow;
 	
 	//CONSTRUCTOR
-	public Controller(UserDAO userDAO) 
+	public Controller(UserDAO userDAO, CredentialsDAO credentialsDAO) 
 	{
 		this.userDAO = userDAO;
+		this.credentialsDAO = credentialsDAO;
 	}
 
 	//METHODS
@@ -38,6 +42,7 @@ public class Controller {
 			
 	}
 	
+	//Create the user to start using the software
 	public boolean createUser(User newUser) 
 	{
 		return userDAO.insertNewUser(newUser);
@@ -52,14 +57,16 @@ public class Controller {
 		loginWindow.setVisible(true);
 	}
 	
+	//Switch from the login window to the main window
 	public void openMainWindow() 
 	{
 		loginWindow.setVisible(false);
 		
-		mainWindow = new MainWindow();
+		mainWindow = new MainWindow(this);
 		mainWindow.setVisible(true);
 	}
 	
+	//Get the name of the user
 	public String getUserFirstName() 
 	{
 		return userDAO.getUserFirstName();
@@ -68,6 +75,11 @@ public class Controller {
 	public boolean login(String insertedMasterPassword) 
 	{
 		return userDAO.login(insertedMasterPassword);
+	}
+	
+	public boolean insertNewCredentials(Credentials newCredentials) 
+	{
+		return credentialsDAO.insertNewCredential(newCredentials);
 	}
 	//DEBUG METHODS
 }

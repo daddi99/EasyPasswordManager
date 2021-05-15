@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
 import controller.Controller;
+import dao.CredentialsDAO;
 import dao.UserDAO;
 import gui.LoginWindow;
 
@@ -23,15 +24,18 @@ public class Starter {
 		
 		//Inizialize the DAO classes to comunicate with the database
 		UserDAO userDAO = new UserDAO(currentConnection);
+		CredentialsDAO credentialsDAO = new CredentialsDAO(currentConnection);
 		
 		//Inizialize the controller of the software
-		Controller softwareController = new Controller(userDAO);
+		Controller softwareController = new Controller(userDAO, credentialsDAO);
 		
 		//userDAO.clearUserTable();
+		//credentialsDAO.clearCredentialsTable();
 		
 		softwareController.startSoftware();
 	
 		//userDAO.showUserTable();
+		credentialsDAO.showCredentialsTable();
 	}
 
 }

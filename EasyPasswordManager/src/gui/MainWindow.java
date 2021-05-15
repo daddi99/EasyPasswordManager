@@ -16,10 +16,18 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
+
+import org.eclipse.ui.internal.handlers.NewEditorHandler;
+
+import controller.Controller;
+import entities.Credentials;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainWindow extends JFrame {
 
@@ -32,7 +40,7 @@ public class MainWindow extends JFrame {
 	private JTextField usernameFakeLabel;
 	private JTextField passwordFakeLabel;
 
-	public MainWindow() 
+	public MainWindow(Controller softwareController) 
 	{
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/icone/password_16.png")));
 		setTitle("Easy Password Manager");
@@ -121,6 +129,15 @@ public class MainWindow extends JFrame {
 		contentPane.add(passwordLabel);
 		
 		JButton addButton = new JButton("Add");
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Create a new credentials object from the text fields
+				Credentials newCredentials = new Credentials(websiteTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
+				
+				softwareController.insertNewCredentials(newCredentials);
+			}
+		});
 		addButton.setBackground(Color.WHITE);
 		addButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		addButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));

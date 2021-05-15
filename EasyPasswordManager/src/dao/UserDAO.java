@@ -112,7 +112,7 @@ public class UserDAO {
 			if(insertedMasterPassword.equals(correctMasterPassword)) 
 			{
 				flag = true;
-				System.out.println("Login done...");
+				System.out.println("Login done...\n");
 			}	
 			
 		} catch (SQLException e) 
@@ -156,7 +156,7 @@ public class UserDAO {
 			int result = stmt.executeUpdate("DELETE FROM User_Info");
 			
 			if(result == 1)
-				System.out.println("User table cleared");
+				System.out.println("User table cleared\n");
 			
 		} catch (SQLException e) 
 		{
