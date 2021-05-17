@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import dao.*;
 import entities.Credentials;
 import entities.User;
@@ -81,5 +83,9 @@ public class Controller {
 	{
 		return credentialsDAO.insertNewCredential(newCredentials);
 	}
-	//DEBUG METHODS
+	
+	public ArrayList<Credentials> getAllCredentials()
+	{
+		return credentialsDAO.getAllCredentials();
+	}
 }

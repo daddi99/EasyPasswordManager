@@ -30,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Cursor;
 
 public class MainWindow extends JFrame {
 
@@ -131,6 +132,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(passwordLabel);
 		
 		JButton addButton = new JButton("Add");
+		addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -166,12 +168,18 @@ public class MainWindow extends JFrame {
 		addButton.setBounds(286, 505, 59, 33);
 		contentPane.add(addButton);
 		
-		JComboBox websiteComboBox = new JComboBox();
+		JComboBox<Credentials> websiteComboBox = new JComboBox<Credentials>();
+		websiteComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		websiteComboBox.setFont(new Font("Consolas", Font.PLAIN, 12));
 		websiteComboBox.setBackground(Color.WHITE);
 		websiteComboBox.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		websiteComboBox.setBounds(873, 214, 178, 22);
 		websiteComboBox.setUI(new BasicComboBoxUI());
+		
+		//Populate the website comboBox with the data from the database
+		for(Credentials c: softwareController.getAllCredentials())
+			websiteComboBox.addItem(c);
+		
 		contentPane.add(websiteComboBox);
 		
 		JLabel selectWebsiteLabel = new JLabel("Select Website");

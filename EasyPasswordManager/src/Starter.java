@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
@@ -9,6 +10,7 @@ import javax.swing.plaf.ColorUIResource;
 import controller.Controller;
 import dao.CredentialsDAO;
 import dao.UserDAO;
+import entities.Credentials;
 import gui.LoginWindow;
 
 public class Starter {
@@ -35,7 +37,8 @@ public class Starter {
 		softwareController.startSoftware();
 	
 		//userDAO.showUserTable();
-		credentialsDAO.showCredentialsTable();
+		//credentialsDAO.showCredentialsTable();
+			
 	}
 
 }

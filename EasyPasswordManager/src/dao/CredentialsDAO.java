@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import entities.Credentials;
 
@@ -48,6 +49,38 @@ public class CredentialsDAO {
 		}
 		
 		return flag;
+	}
+	
+	//Returns all the rows of the credentials table as an ArrayList<Credentials>
+	public ArrayList<Credentials> getAllCredentials()
+	{
+		ArrayList<Credentials> credentialsArray = new ArrayList<Credentials>();
+		
+		try 
+		{
+			Statement stmt = currentConnection.createStatement();
+			
+			ResultSet result = stmt.executeQuery("SELECT * FROM Credentials");
+			
+			//For each row of the table create a temp Credentials object and adds it to the arraylist
+			while(result.next()) 
+			{
+				String website = result.getString("website");
+				String email = result.getString("email");
+				String username = result.getString("username");
+				String password = result.getString("pass");
+				
+				Credentials tmpCredentials = new Credentials(website, email, username, password);
+				
+				credentialsArray.add(tmpCredentials);
+			}	
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return credentialsArray;
 	}
 	
 	//DEBUG METHODS
