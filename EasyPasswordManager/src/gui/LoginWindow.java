@@ -20,6 +20,8 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginWindow extends JFrame {
 
@@ -58,6 +60,16 @@ public class LoginWindow extends JFrame {
 		contentPane.add(passwordField);
 		
 		JButton loginButton = new JButton("Login");
+		loginButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				loginButton.setBackground(Color.LIGHT_GRAY);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				loginButton.setBackground(Color.WHITE);
+			}
+		});
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				

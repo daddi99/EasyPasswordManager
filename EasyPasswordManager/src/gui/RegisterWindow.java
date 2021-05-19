@@ -106,12 +106,12 @@ public class RegisterWindow extends JFrame {
 		emailLabel.setBounds(626, 198, 46, 14);
 		contentPane.add(emailLabel);
 		
-		JLabel lblMasterPassword = new JLabel("Master Password");
-		lblMasterPassword.setToolTipText("");
-		lblMasterPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMasterPassword.setFont(new Font("Consolas", Font.PLAIN, 17));
-		lblMasterPassword.setBounds(304, 266, 159, 31);
-		contentPane.add(lblMasterPassword);
+		JLabel masterPasswordLabel = new JLabel("Master Password");
+		masterPasswordLabel.setToolTipText("");
+		masterPasswordLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		masterPasswordLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
+		masterPasswordLabel.setBounds(304, 266, 159, 31);
+		contentPane.add(masterPasswordLabel);
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -120,8 +120,18 @@ public class RegisterWindow extends JFrame {
 		passwordField.setBounds(322, 296, 124, 20);
 		contentPane.add(passwordField);
 		
-		JButton btnNewButton = new JButton("Go!");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton goButton = new JButton("Go!");
+		goButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				goButton.setBackground(Color.LIGHT_GRAY);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				goButton.setBackground(Color.WHITE);
+			}
+		});
+		goButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				//Create a new user object from the text fields 
@@ -150,11 +160,11 @@ public class RegisterWindow extends JFrame {
 			}
 		});
 		
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
-		btnNewButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		btnNewButton.setBounds(345, 380, 78, 31);
-		contentPane.add(btnNewButton);
+		goButton.setBackground(Color.WHITE);
+		goButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		goButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		goButton.setBounds(345, 380, 78, 31);
+		contentPane.add(goButton);
 	}
 	
 	//OTHER METHODS

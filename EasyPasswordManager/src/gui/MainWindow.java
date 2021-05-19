@@ -24,6 +24,8 @@ import org.eclipse.ui.internal.handlers.NewEditorHandler;
 import controller.Controller;
 import entities.Credentials;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -31,6 +33,8 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainWindow extends JFrame {
 
@@ -130,58 +134,7 @@ public class MainWindow extends JFrame {
 		passwordLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
 		passwordLabel.setBounds(240, 423, 150, 20);
 		contentPane.add(passwordLabel);
-		
-		JButton addButton = new JButton("Add");
-		addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//If all the text fields are compiled
-				if(!websiteTextField.getText().isBlank() && !emailTextField.getText().isBlank() && !usernameTextField.getText().isBlank() && !passwordTextField.getText().isBlank())
-				{
-					//Create a new credentials object from the text fields
-					Credentials newCredentials = new Credentials(websiteTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
-					
-					//insert the credentials in the database
-					boolean result = softwareController.insertNewCredentials(newCredentials);
-					
-					if(result) 
-					{
-						JOptionPane.showMessageDialog(null, "New credentials added");
-					}
-					else 
-						JOptionPane.showMessageDialog(null,"Error adding these new credentials!\nCheck if you already have saved them","Error", JOptionPane.ERROR_MESSAGE);
-				
-					clearCredentialsFields();
-				}
-				
-				//If at least one text field is blank then display en error
-				else if(websiteTextField.getText().isBlank() || emailTextField.getText().isBlank() || usernameTextField.getText().isBlank() || passwordTextField.getText().isBlank())
-					JOptionPane.showMessageDialog(null, "All the fields must be compiled", "Error", JOptionPane.ERROR_MESSAGE);
-
-				
-			}
-		});
-		addButton.setBackground(Color.WHITE);
-		addButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
-		addButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		addButton.setBounds(286, 505, 59, 33);
-		contentPane.add(addButton);
-		
-		JComboBox<Credentials> websiteComboBox = new JComboBox<Credentials>();
-		websiteComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		websiteComboBox.setFont(new Font("Consolas", Font.PLAIN, 12));
-		websiteComboBox.setBackground(Color.WHITE);
-		websiteComboBox.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
-		websiteComboBox.setBounds(873, 214, 178, 22);
-		websiteComboBox.setUI(new BasicComboBoxUI());
-		
-		//Populate the website comboBox with the data from the database
-		for(Credentials c: softwareController.getAllCredentials())
-			websiteComboBox.addItem(c);
-		
-		contentPane.add(websiteComboBox);
-		
+	
 		JLabel selectWebsiteLabel = new JLabel("Select Website");
 		selectWebsiteLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		selectWebsiteLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
@@ -207,34 +160,129 @@ public class MainWindow extends JFrame {
 		contentPane.add(lblPassword);
 		
 		emailFakeLabel = new JTextField();
+		emailFakeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		emailFakeLabel.setText("My email");
 		emailFakeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		emailFakeLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
 		emailFakeLabel.setEditable(false);
 		emailFakeLabel.setColumns(10);
 		emailFakeLabel.setBorder(null);
-		emailFakeLabel.setBounds(870, 291, 181, 29);
+		emailFakeLabel.setBounds(781, 291, 372, 29);
 		contentPane.add(emailFakeLabel);
 		
 		usernameFakeLabel = new JTextField();
+		usernameFakeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		usernameFakeLabel.setText("My Username");
 		usernameFakeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		usernameFakeLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
 		usernameFakeLabel.setEditable(false);
 		usernameFakeLabel.setColumns(10);
 		usernameFakeLabel.setBorder(null);
-		usernameFakeLabel.setBounds(873, 377, 181, 29);
+		usernameFakeLabel.setBounds(781, 377, 372, 29);
 		contentPane.add(usernameFakeLabel);
 		
 		passwordFakeLabel = new JTextField();
+		passwordFakeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		passwordFakeLabel.setText("My Password");
 		passwordFakeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordFakeLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
 		passwordFakeLabel.setEditable(false);
 		passwordFakeLabel.setColumns(10);
 		passwordFakeLabel.setBorder(null);
-		passwordFakeLabel.setBounds(873, 473, 181, 29);
+		passwordFakeLabel.setBounds(781, 473, 372, 29);
 		contentPane.add(passwordFakeLabel);
+		
+		JComboBox<Credentials> websiteComboBox = new JComboBox<Credentials>();
+		websiteComboBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		websiteComboBox.setFont(new Font("Consolas", Font.PLAIN, 12));
+		websiteComboBox.setBackground(Color.WHITE);
+		websiteComboBox.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		websiteComboBox.setBounds(873, 214, 178, 22);
+		websiteComboBox.setUI(new BasicComboBoxUI());
+		websiteComboBox.setModel(new DefaultComboBoxModel<Credentials>());
+		
+		websiteComboBox.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		        int selectedIndex = websiteComboBox.getSelectedIndex();
+		    	
+		    	emailFakeLabel.setText(websiteComboBox.getItemAt(selectedIndex).getEmail());
+		    	usernameFakeLabel.setText(websiteComboBox.getItemAt(selectedIndex).getUsername());
+		    	passwordFakeLabel.setText(websiteComboBox.getItemAt(selectedIndex).getPassword());
+		    }
+		});
+		
+		//Populate the website comboBox with the data from the database
+		for(Credentials c: softwareController.getAllCredentials())
+			websiteComboBox.addItem(c);
+		
+		contentPane.add(websiteComboBox);
+		
+		JButton addButton = new JButton("Add");
+		addButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				addButton.setBackground(Color.LIGHT_GRAY);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				addButton.setBackground(Color.WHITE);
+			}
+		});
+		addButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//If all the text fields are compiled
+				if(!websiteTextField.getText().isBlank() && !emailTextField.getText().isBlank() && !usernameTextField.getText().isBlank() && !passwordTextField.getText().isBlank())
+				{
+					//Create a new credentials object from the text fields
+					Credentials newCredentials = new Credentials(websiteTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
+					
+					//insert the credentials in the database
+					boolean result = softwareController.insertNewCredentials(newCredentials);
+					
+					if(result) 
+					{
+						JOptionPane.showMessageDialog(null, "New credentials added");
+					}
+					else 
+						JOptionPane.showMessageDialog(null,"Error adding these new credentials!\nCheck if you already have saved them","Error", JOptionPane.ERROR_MESSAGE);
+				
+					clearCredentialsFields();
+					
+					//Refresh the window to update the comboBox
+					softwareController.refreshMainWindow(MainWindow.this);
+				}
+				
+				//If at least one text field is blank then display en error
+				else if(websiteTextField.getText().isBlank() || emailTextField.getText().isBlank() || usernameTextField.getText().isBlank() || passwordTextField.getText().isBlank())
+					JOptionPane.showMessageDialog(null, "All the fields must be compiled", "Error", JOptionPane.ERROR_MESSAGE);
+
+				
+			}
+		});
+		addButton.setBackground(Color.WHITE);
+		addButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		addButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		addButton.setBounds(286, 505, 59, 33);
+		contentPane.add(addButton);
+		
+		JLabel createdByLabel = new JLabel("Created By Davide Soldatini");
+		createdByLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		createdByLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
+		createdByLabel.setBounds(10, 660, 290, 20);
+		contentPane.add(createdByLabel);
+		
+		JLabel versionLabel = new JLabel("v2.0");
+		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		versionLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
+		versionLabel.setBounds(970, 660, 280, 20);
+		contentPane.add(versionLabel);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		separator.setBounds(636, 168, 1, 369);
+		contentPane.add(separator);
 	}
 	
 	//OTHER METHODS

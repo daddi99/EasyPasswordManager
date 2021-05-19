@@ -2,6 +2,8 @@ package controller;
 
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 import dao.*;
 import entities.Credentials;
 import entities.User;
@@ -66,6 +68,14 @@ public class Controller {
 		
 		mainWindow = new MainWindow(this);
 		mainWindow.setVisible(true);
+	}
+	
+	public void refreshMainWindow(JFrame windowToRefresh) 
+	{
+		windowToRefresh.dispose();
+		
+		MainWindow newWindow = new MainWindow(this);
+		newWindow.setVisible(true);
 	}
 	
 	//Get the name of the user
