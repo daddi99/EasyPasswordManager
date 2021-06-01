@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 
 public class LoginWindow extends JFrame {
 
@@ -55,6 +56,9 @@ public class LoginWindow extends JFrame {
 		contentPane.add(masterPasswordLabel);
 		
 		passwordField = new JPasswordField();
+		passwordField.setEchoChar('*');
+		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
+		passwordField.setFont(new Font("Consolas", Font.PLAIN, 13));
 		passwordField.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		passwordField.setBounds(279, 215, 156, 20);
 		contentPane.add(passwordField);
@@ -91,5 +95,30 @@ public class LoginWindow extends JFrame {
 		loginButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		loginButton.setBounds(317, 333, 79, 25);
 		contentPane.add(loginButton);
+		
+		JButton showPasswordButton = new JButton("");
+		showPasswordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		showPasswordButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				//Show the content of the password field
+				passwordField.setEchoChar((char)0);
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				passwordField.setEchoChar('*');
+			}
+		});
+		showPasswordButton.setContentAreaFilled(false);
+		showPasswordButton.setBackground(Color.WHITE);
+		showPasswordButton.setBorder(null);
+		showPasswordButton.setIcon(new ImageIcon(LoginWindow.class.getResource("/icone/showpass_24.png")));
+		showPasswordButton.setBounds(440, 215, 53, 23);
+		contentPane.add(showPasswordButton);
 	}
 }

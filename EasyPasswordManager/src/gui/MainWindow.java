@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -264,7 +265,7 @@ public class MainWindow extends JFrame {
 		addButton.setBackground(Color.WHITE);
 		addButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		addButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		addButton.setBounds(286, 505, 59, 33);
+		addButton.setBounds(286, 526, 59, 33);
 		contentPane.add(addButton);
 		
 		JLabel createdByLabel = new JLabel("Created By Davide Soldatini");
@@ -283,6 +284,28 @@ public class MainWindow extends JFrame {
 		separator.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		separator.setBounds(636, 168, 1, 369);
 		contentPane.add(separator);
+		
+		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{	
+				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete these credentials?");
+				
+				if(confirm == JOptionPane.YES_OPTION) 
+				{
+					int selectedIndex = websiteComboBox.getSelectedIndex();
+					
+					softwareController.removeCredentials(websiteComboBox.getModel().getElementAt(selectedIndex));
+					
+					softwareController.refreshMainWindow(MainWindow.this);
+				}
+			}
+		});
+		btnRemove.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		btnRemove.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		btnRemove.setBackground(Color.WHITE);
+		btnRemove.setBounds(909, 526, 117, 33);
+		contentPane.add(btnRemove);
 	}
 	
 	//OTHER METHODS

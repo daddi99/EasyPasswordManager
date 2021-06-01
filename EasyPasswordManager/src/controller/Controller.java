@@ -84,18 +84,27 @@ public class Controller {
 		return userDAO.getUserFirstName();
 	}
 	
+	
 	public boolean login(String insertedMasterPassword) 
 	{
 		return userDAO.login(insertedMasterPassword);
 	}
+	
 	
 	public boolean insertNewCredentials(Credentials newCredentials) 
 	{
 		return credentialsDAO.insertNewCredential(newCredentials);
 	}
 	
+	
 	public ArrayList<Credentials> getAllCredentials()
 	{
 		return credentialsDAO.getAllCredentials();
+	}
+	
+	
+	public boolean removeCredentials(Credentials credentialsToRemove) 
+	{
+		return credentialsDAO.removeCredentials(credentialsToRemove);
 	}
 }

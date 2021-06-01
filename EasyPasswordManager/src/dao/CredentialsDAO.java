@@ -83,6 +83,37 @@ public class CredentialsDAO {
 		return credentialsArray;
 	}
 	
+	//Remove a single row of the credentials table
+	public boolean removeCredentials(Credentials credentialsToRemove) 
+	{
+		boolean flag = false;
+		
+		try 
+		{
+			PreparedStatement removeCredentialsPS = currentConnection.prepareStatement("DELETE FROM Credentials WHERE website = ? AND email = ? AND username = ? AND pass = ?");
+
+			removeCredentialsPS.setString(1, credentialsToRemove.getWebsite());
+			removeCredentialsPS.setString(2, credentialsToRemove.getEmail());
+			removeCredentialsPS.setString(3, credentialsToRemove.getUsername());
+			removeCredentialsPS.setString(4, credentialsToRemove.getPassword());
+			
+			int result = removeCredentialsPS.executeUpdate();
+			
+			if(result == 1) 
+			{
+				flag = true;
+				System.out.println("Credentials deleted\n");
+			}
+		} 
+		catch (SQLException e) 
+		
+		{
+			e.printStackTrace();
+		}
+		
+		return flag;
+	}
+	
 	//DEBUG METHODS
 	
 	//Show all the rows in Credentials table of the Database
