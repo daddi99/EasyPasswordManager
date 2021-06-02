@@ -26,6 +26,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Toolkit;
+import java.awt.Cursor;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class RegisterWindow extends JFrame {
 
@@ -45,6 +48,7 @@ public class RegisterWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 774, 478);
 		contentPane = new JPanel();
+
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -54,14 +58,14 @@ public class RegisterWindow extends JFrame {
 		welcomeLabel.setIconTextGap(20);
 		welcomeLabel.setIcon(new ImageIcon(RegisterWindow.class.getResource("/icone/passwordManager_64.png")));
 		welcomeLabel.setFont(new Font("Consolas", Font.PLAIN, 25));
-		welcomeLabel.setBounds(111, 11, 605, 83);
+		welcomeLabel.setBounds(111, 11, 546, 83);
 		contentPane.add(welcomeLabel);
 		
 		JLabel createAccountLabel = new JLabel("Enter your info to get started");
 		createAccountLabel.setIconTextGap(20);
 		createAccountLabel.setIcon(null);
 		createAccountLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
-		createAccountLabel.setBounds(215, 89, 338, 43);
+		createAccountLabel.setBounds(216, 129, 336, 43);
 		contentPane.add(createAccountLabel);
 		
 		nameTextField = new JTextField();
@@ -114,13 +118,15 @@ public class RegisterWindow extends JFrame {
 		contentPane.add(masterPasswordLabel);
 		
 		passwordField = new JPasswordField();
+		passwordField.setEchoChar('*');
 		passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordField.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
-		passwordField.setBounds(322, 296, 124, 20);
+		passwordField.setBounds(321, 296, 124, 20);
 		contentPane.add(passwordField);
 		
 		JButton goButton = new JButton("Go!");
+		goButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -163,8 +169,40 @@ public class RegisterWindow extends JFrame {
 		goButton.setBackground(Color.WHITE);
 		goButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		goButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		goButton.setBounds(345, 380, 78, 31);
+		goButton.setBounds(344, 380, 78, 31);
 		contentPane.add(goButton);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				passwordField.setEchoChar((char)0);
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				passwordField.setEchoChar('*');
+			}
+		});
+		btnNewButton.setBorder(null);
+		btnNewButton.setContentAreaFilled(false);
+		btnNewButton.setIcon(new ImageIcon(RegisterWindow.class.getResource("/icone/showpass_24.png")));
+		btnNewButton.setBounds(452, 295, 46, 23);
+		contentPane.add(btnNewButton);
+		
+		JLabel versionLabel = new JLabel(Controller.version);
+		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		versionLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
+		versionLabel.setBounds(655, 422, 89, 14);
+		contentPane.add(versionLabel);
+		
+		JLabel CreatedByDavideLabel = new JLabel("Created By Davide Soldatini");
+		CreatedByDavideLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		CreatedByDavideLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
+		CreatedByDavideLabel.setBounds(10, 422, 251, 14);
+		contentPane.add(CreatedByDavideLabel);
 	}
 	
 	//OTHER METHODS

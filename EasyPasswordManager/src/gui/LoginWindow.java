@@ -23,6 +23,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import java.awt.Cursor;
 
 public class LoginWindow extends JFrame {
 
@@ -64,6 +65,7 @@ public class LoginWindow extends JFrame {
 		contentPane.add(passwordField);
 		
 		JButton loginButton = new JButton("Login");
+		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		loginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -93,10 +95,11 @@ public class LoginWindow extends JFrame {
 		loginButton.setBackground(Color.WHITE);
 		loginButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		loginButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		loginButton.setBounds(317, 333, 79, 25);
+		loginButton.setBounds(318, 333, 79, 25);
 		contentPane.add(loginButton);
 		
 		JButton showPasswordButton = new JButton("");
+		showPasswordButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		showPasswordButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -118,7 +121,19 @@ public class LoginWindow extends JFrame {
 		showPasswordButton.setBackground(Color.WHITE);
 		showPasswordButton.setBorder(null);
 		showPasswordButton.setIcon(new ImageIcon(LoginWindow.class.getResource("/icone/showpass_24.png")));
-		showPasswordButton.setBounds(440, 215, 53, 23);
+		showPasswordButton.setBounds(440, 214, 53, 23);
 		contentPane.add(showPasswordButton);
+		
+		JLabel versionLabel = new JLabel(Controller.version);
+		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		versionLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
+		versionLabel.setBounds(602, 423, 89, 14);
+		contentPane.add(versionLabel);
+		
+		JLabel CreatedByDavideLabel = new JLabel("Created By Davide Soldatini");
+		CreatedByDavideLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		CreatedByDavideLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
+		CreatedByDavideLabel.setBounds(11, 423, 251, 14);
+		contentPane.add(CreatedByDavideLabel);
 	}
 }

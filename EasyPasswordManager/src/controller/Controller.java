@@ -11,6 +11,8 @@ import gui.*;
 
 public class Controller {
 	
+	public static String version = "v2.1";
+	
 	//ATTRIBUTES
 	UserDAO userDAO;
 	CredentialsDAO credentialsDAO;

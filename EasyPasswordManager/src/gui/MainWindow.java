@@ -283,7 +283,7 @@ public class MainWindow extends JFrame {
 		createdByLabel.setBounds(10, 660, 290, 20);
 		contentPane.add(createdByLabel);
 		
-		JLabel versionLabel = new JLabel("v2.1");
+		JLabel versionLabel = new JLabel(Controller.version);
 		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		versionLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
 		versionLabel.setBounds(970, 660, 280, 20);
@@ -295,6 +295,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(separator);
 		
 		JButton removeButton = new JButton("Remove");
+		removeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		removeButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) 
@@ -329,6 +330,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(removeButton);
 		
 		JButton backupButton = new JButton("Backup on Desktop");
+		backupButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		backupButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) 
@@ -352,7 +354,7 @@ public class MainWindow extends JFrame {
 					//Create a new file on the Desktop
 					PrintWriter writer = new PrintWriter(System.getProperty("user.home") + "/Desktop/EasyPasswordManager Backup.txt","UTF-8");
 					
-					writer.println("Made with EasyPasswordManager by Davide Soldatini\n\nWEBSITE | EMAIL | USERNAME | PASSWORD\n\n");
+					writer.println("Made with EasyPasswordManager by Davide Soldatini\n\nWEBSITE | EMAIL | USERNAME | PASSWORD\n");
 					
 					//Write all the content of the database on the file
 					for(Credentials c : softwareController.getAllCredentials())
