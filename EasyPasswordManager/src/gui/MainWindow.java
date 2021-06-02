@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
+import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.internal.handlers.NewEditorHandler;
 
 import controller.Controller;
@@ -36,6 +37,14 @@ import java.awt.event.ActionEvent;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 
 public class MainWindow extends JFrame {
 
@@ -274,7 +283,7 @@ public class MainWindow extends JFrame {
 		createdByLabel.setBounds(10, 660, 290, 20);
 		contentPane.add(createdByLabel);
 		
-		JLabel versionLabel = new JLabel("v2.0");
+		JLabel versionLabel = new JLabel("v2.1");
 		versionLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		versionLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
 		versionLabel.setBounds(970, 660, 280, 20);
@@ -285,8 +294,20 @@ public class MainWindow extends JFrame {
 		separator.setBounds(636, 168, 1, 369);
 		contentPane.add(separator);
 		
-		JButton btnRemove = new JButton("Remove");
-		btnRemove.addActionListener(new ActionListener() {
+		JButton removeButton = new JButton("Remove");
+		removeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				removeButton.setBackground(Color.LIGHT_GRAY);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				removeButton.setBackground(Color.WHITE);
+			}
+		});
+		removeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{	
 				int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete these credentials?");
@@ -301,11 +322,58 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});
-		btnRemove.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		btnRemove.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
-		btnRemove.setBackground(Color.WHITE);
-		btnRemove.setBounds(909, 526, 117, 33);
-		contentPane.add(btnRemove);
+		removeButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		removeButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		removeButton.setBackground(Color.WHITE);
+		removeButton.setBounds(909, 526, 117, 33);
+		contentPane.add(removeButton);
+		
+		JButton backupButton = new JButton("Backup on Desktop");
+		backupButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				backupButton.setBackground(Color.LIGHT_GRAY);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				backupButton.setBackground(Color.WHITE);
+			}
+		});
+		backupButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		backupButton.setBackground(Color.WHITE);
+		backupButton.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		backupButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				try 
+				{
+					//Create a new file on the Desktop
+					PrintWriter writer = new PrintWriter(System.getProperty("user.home") + "/Desktop/EasyPasswordManager Backup.txt","UTF-8");
+					
+					writer.println("Made with EasyPasswordManager by Davide Soldatini\n\nWEBSITE | EMAIL | USERNAME | PASSWORD\n\n");
+					
+					//Write all the content of the database on the file
+					for(Credentials c : softwareController.getAllCredentials())
+						writer.println(c.getWebsite() + " | " + c.getEmail() + " | " + c.getUsername() + " | " + c.getPassword());
+
+					writer.close();
+					
+					JOptionPane.showMessageDialog(null, "Credentials successfully saved on Desktop");
+				} 
+				catch (FileNotFoundException e1) 
+				{
+					e1.printStackTrace();
+				} 
+				catch (UnsupportedEncodingException e1) 
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
+		backupButton.setBounds(10, 11, 160, 29);
+		contentPane.add(backupButton);
 	}
 	
 	//OTHER METHODS
@@ -315,5 +383,22 @@ public class MainWindow extends JFrame {
 		emailTextField.setText("");
 		usernameTextField.setText("");
 		passwordTextField.setText("");
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }

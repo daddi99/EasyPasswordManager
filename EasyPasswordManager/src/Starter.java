@@ -38,6 +38,7 @@ public class Starter {
 	
 		//userDAO.showUserTable();
 		//credentialsDAO.showCredentialsTable();
+		
 			
 	}
 
