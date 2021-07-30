@@ -1,4 +1,4 @@
-# EasyPasswordManager
+# <p align="center">EasyPasswordManager</p>
 EasyPasswordManager is a simple program that helps you store all your credentials locally.
 
 It uses a SQLite database which is embedded directly in the jar file, so you can simply move/copy the executable from one pc to another (with JVM installed) and keep all your data.
